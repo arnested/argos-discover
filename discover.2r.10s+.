@@ -1,0 +1,30 @@
+#!/usr/bin/bash
+
+echo :earth_africa:
+
+declare -A serviceIconMap=()
+serviceIconMap[http]=:earth_africa:
+serviceIconMap[https]=:lock:
+# serviceIconMap[mysql]=:card_index:
+
+for proto in "${!serviceIconMap[@]}"; do
+    echo ---
+    echo "${serviceIconMap[${proto}]} <b>${proto^^}</b>"
+    
+    if [ "${ARGOS_MENU_OPEN}" != "true" ]; then
+        echo '<i><span alpha="65%">scanning...</span></i>'
+        continue
+    fi
+    
+    for e in $(/usr/bin/avahi-browse -cprk "_$proto._tcp"); do
+        IFS=';' read -r -a d <<< "$e"
+        
+        if [[ "${d[0]}" != "=" ]]; then
+            continue
+        fi
+        
+        url="$proto://${d[6]}"
+        text="${d[3]}"
+        printf "%s | href=%s\\n" "${text}" "${url}"
+     done | /usr/bin/sort --uniq | grep . || echo '<i><span alpha="65%">none</span></i>'
+done
