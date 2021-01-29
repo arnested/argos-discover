@@ -16,7 +16,7 @@ for proto in "${!serviceIconMap[@]}"; do
         continue
     fi
     
-    for e in $(/usr/bin/avahi-browse -cprk "_$proto._tcp"); do
+    for e in $(/usr/bin/avahi-browse -tprk "_$proto._tcp"); do
         IFS=';' read -r -a d <<< "$e"
         
         if [[ "${d[0]}" != "=" ]]; then
