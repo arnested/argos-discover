@@ -1,5 +1,12 @@
 #!/usr/bin/bash
 
+if [ ! -x /usr/bin/avahi-browse ]; then
+    echo :warning:
+    echo ---
+    echo '<span alpha="65%">Please install avahi-utils</span>'
+    exit 1
+fi
+
 echo :earth_africa:
 
 declare -A serviceIconMap=()
