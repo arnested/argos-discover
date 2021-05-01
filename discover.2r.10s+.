@@ -31,7 +31,7 @@ for proto in "${!serviceIconMap[@]}"; do
         fi
         
         url="$proto://${d[6]}"
-        text="${d[3]}"
+        text="${d[3]//\\0??/ }"
         printf "%s | href=%s\\n" "${text}" "${url}"
      done | /usr/bin/sort --uniq | grep . || echo '<i><span alpha="65%">none</span></i>'
 done
